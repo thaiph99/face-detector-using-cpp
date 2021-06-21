@@ -1,5 +1,5 @@
 CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o: \
- /home/it/Data/test/face-detector-using-cpp/face_detection_opencv_dnn.cpp \
+ /home/it/Data/thaiphData/face-detector-using-cpp/face_detection_opencv_dnn.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/9/iostream \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \

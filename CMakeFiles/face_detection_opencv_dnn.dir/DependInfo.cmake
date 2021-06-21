@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/it/Data/test/face-detector-using-cpp/face_detection_opencv_dnn.cpp" "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o" "gcc" "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o.d"
+  "/home/it/Data/thaiphData/face-detector-using-cpp/face_detection_opencv_dnn.cpp" "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o" "gcc" "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o.d"
   )
 
 # Targets to which this target links.
