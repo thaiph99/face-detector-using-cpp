@@ -1,0 +1,10 @@
+- install package
+sudo apt-get install libboost-dev 
+sudo apt install libopencv-dev python3-opencv
+
+- shortcut package
+sudo ln -s /usr/include/opencv4/opencv2 /usr/include/
+
+- build and run file
+cmake -D OpenCV_DIR= /usr/include/opencv4/opencv2/ -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/.
+make

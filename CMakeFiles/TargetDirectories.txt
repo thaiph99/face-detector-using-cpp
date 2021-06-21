@@ -1,0 +1,3 @@
+/home/it/Data/test/face-detector-using-cpp/CMakeFiles/rebuild_cache.dir
+/home/it/Data/test/face-detector-using-cpp/CMakeFiles/face_detection_opencv_dnn.dir
+/home/it/Data/test/face-detector-using-cpp/CMakeFiles/edit_cache.dir
