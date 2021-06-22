@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o"
+  "CMakeFiles/face_detection_opencv_dnn.dir/face_detection_opencv_dnn.cpp.o.d"
   "face_detection_opencv_dnn"
   "face_detection_opencv_dnn.pdb"
 )
