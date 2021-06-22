@@ -41,10 +41,12 @@ void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
     int midFrame = int(frameWidth / 2);
     Mat detectionMat(detection.size[2], detection.size[3], CV_32F, detection.ptr<float>());
 
+    int x1, x2, y1, y2;
+    string s = "";
+    float confidence;
     for (int i = 0; i < detectionMat.rows; i++)
     {
-        float confidence = detectionMat.at<float>(i, 2);
-        int x1, x2, y1, y2;
+        confidence = detectionMat.at<float>(i, 2);
         if (confidence > confidenceThreshold)
         {
             x1 = static_cast<int>(detectionMat.at<float>(i, 3) * frameWidth);
@@ -52,16 +54,16 @@ void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
             x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
             y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frameHeight);
             rectangle(frameOpenCVDNN, cv::Point(x1, y1), cv::Point(x2, y2), cv::Scalar(0, 255, 0), 2, 4);
-        }
-        string s = "";
-        if (x1 <= midFrame && midFrame <= x2)
-            continue;
-        else if (midFrame < x1)
-            s = format("right : %d fixels", abs(x1 - midFrame));
-        else if (midFrame > x2)
-            s = format("left : %d fixels", abs(midFrame - x2));
 
-        putText(frameOpenCVDNN, s, Point(int(frameWidth / 2) + 5, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
+            if (x1 <= midFrame && midFrame <= x2)
+                continue;
+            else if (midFrame < x1)
+                s = format("right : %d fixels", abs(x1 - midFrame));
+            else if (midFrame > x2)
+                s = format("left : %d fixels", abs(midFrame - x2));
+
+            putText(frameOpenCVDNN, s, Point(int(frameWidth / 2) + 5, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
+        }
     }
 }
 
