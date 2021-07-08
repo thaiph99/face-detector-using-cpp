@@ -109,6 +109,7 @@ if __name__ == "__main__":
 
     while True:
         hasFrame, frame = cap.read()
+        frame = cv2.flip(frame, 1)
         if not hasFrame:
             break
 
@@ -134,7 +135,7 @@ if __name__ == "__main__":
 
         cv2.imshow("Face Detection Comparison", outOpencvDnn)
 
-        vid_writer.write(outOpencvDnn)
+        # vid_writer.write(outOpencvDnn)
 
         if frame_count == 1:
             tt_opencvDnn = 0
@@ -144,4 +145,4 @@ if __name__ == "__main__":
             break
 
     cv2.destroyAllWindows()
-    vid_writer.release()
+    # vid_writer.release()
