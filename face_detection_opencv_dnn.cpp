@@ -41,7 +41,6 @@ cv::Scalar GREEN = (0, 255, 0),
 
 void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
 {
-    cout << YELLOW << endl;
     int frameHeight = frameOpenCVDNN.rows;
     int frameWidth = frameOpenCVDNN.cols;
 
