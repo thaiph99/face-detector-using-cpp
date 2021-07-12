@@ -81,6 +81,18 @@ void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
     }
 }
 
+float FocalLength(int measure_distance, int real_value, int width_in_rf_image)
+{
+    int focal_length = (width_in_rf_image * measure_distance) / real_value;
+    return focal_length;
+}
+
+float Distance_finder(float Focal_Length, int real_face_width, int face_width_in_frame)
+{
+    float distance = (real_face_width * Focal_Length) / face_width_in_frame;
+    return distance;
+}
+
 int main(int argc, const char **argv)
 {
     string videoFileName;
