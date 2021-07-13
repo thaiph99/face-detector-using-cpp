@@ -4,6 +4,21 @@ import time
 
 import cv2
 
+# Colors  >>> BGR Format(BLUE, GREEN, RED)
+GREEN = (0, 255, 0)
+RED = (0, 0, 255)
+BLACK = (0, 0, 0)
+YELLOW = (0, 255, 255)
+WHITE = (255, 255, 255)
+CYAN = (255, 255, 0)
+MAGENTA = (255, 0, 242)
+GOLDEN = (32, 218, 165)
+LIGHT_BLUE = (255, 9, 2)
+PURPLE = (128, 0, 128)
+CHOCOLATE = (30, 105, 210)
+PINK = (147, 20, 255)
+ORANGE = (0, 69, 255)
+
 
 def detectFaceOpenCVDnn(net, frame, framework="caffe", conf_threshold=0.7):
     frameOpencvDnn = frame.copy()
@@ -33,9 +48,9 @@ def detectFaceOpenCVDnn(net, frame, framework="caffe", conf_threshold=0.7):
                 frameOpencvDnn,
                 (x1, y1),
                 (x2, y2),
-                (0, 255, 0),
+                GOLDEN,
                 int(round(frameHeight / 150)),
-                8,
+                2,
             )
     return frameOpencvDnn, bboxes
 
@@ -108,13 +123,16 @@ if __name__ == "__main__":
     tt_opencvDnn = 0
 
     while True:
+        t = time.time()
         hasFrame, frame = cap.read()
         frame = cv2.flip(frame, 1)
+        h, w = frame.shape[:2]
+
         if not hasFrame:
             break
 
         frame_count += 1
-        t = time.time()
+        
 
         outOpencvDnn, bboxes = detectFaceOpenCVDnn(net, frame)
         tt_opencvDnn += time.time() - t
@@ -122,17 +140,10 @@ if __name__ == "__main__":
 
         label = "OpenCV DNN {} FPS : {:.2f}".format(
             device.upper(), fpsOpencvDnn)
-        cv2.putText(
-            outOpencvDnn,
-            label,
-            (10, 50),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1.3,
-            (0, 0, 255),
-            3,
-            cv2.LINE_AA,
-        )
+        cv2.putText(outOpencvDnn, label, (10, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                    1.3,  RED, 3, cv2.LINE_AA)
 
+        cv2.line(outOpencvDnn, (w//2, 0), (w//2, h), PINK, 2)
         cv2.imshow("Face Detection Comparison", outOpencvDnn)
 
         # vid_writer.write(outOpencvDnn)

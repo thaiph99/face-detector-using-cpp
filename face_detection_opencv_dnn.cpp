@@ -25,19 +25,20 @@ const std::string caffeWeightFile = "models/res10_300x300_ssd_iter_140000_fp16.c
 const std::string tensorflowConfigFile = "models/opencv_face_detector.pbtxt";
 const std::string tensorflowWeightFile = "models/opencv_face_detector_uint8.pb";
 
-cv::Scalar GREEN = (0, 255, 0),
-           RED = (0, 0, 255),
-           BLACK = (0, 0, 0),
-           YELLOW = (0, 255, 255),
-           WHITE = (255, 255, 255),
-           CYAN = (255, 255, 0),
-           MAGENTA = (255, 0, 242),
-           GOLDEN = (32, 218, 165),
-           LIGHT_BLUE = (255, 9, 2),
-           PURPLE = (128, 0, 128),
-           CHOCOLATE = (30, 105, 210),
-           PINK = (147, 20, 255),
-           ORANGE = (0, 69, 255);
+cv::Scalar
+    GREEN(0, 255, 0),
+    RED(0, 0, 255),
+    BLACK(0, 0, 0),
+    YELLOW(0, 255, 255),
+    WHITE(255, 255, 255),
+    CYAN(255, 255, 0),
+    MAGENTA(255, 0, 242),
+    GOLDEN(32, 218, 165),
+    LIGHT_BLUE(255, 9, 2),
+    PURPLE(128, 0, 128),
+    CHOCOLATE(30, 105, 210),
+    PINK(147, 20, 255),
+    ORANGE(0, 69, 255);
 
 void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
 {
@@ -67,7 +68,7 @@ void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
             y1 = static_cast<int>(detectionMat.at<float>(i, 4) * frameHeight);
             x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
             y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frameHeight);
-            rectangle(frameOpenCVDNN, cv::Point(x1, y1), cv::Point(x2, y2), Scalar(0, 225, 255), 2, 4);
+            rectangle(frameOpenCVDNN, cv::Point(x1, y1), cv::Point(x2, y2), GOLDEN, 2, 4);
 
             if (x1 <= midFrame && midFrame <= x2)
                 continue;
@@ -76,7 +77,7 @@ void detectFaceOpenCVDNN(Net net, Mat &frameOpenCVDNN, string framework)
             else if (midFrame > x2)
                 s = format("left : %d fixels", abs(midFrame - x2));
 
-            putText(frameOpenCVDNN, s, Point(int(frameWidth / 2) + 5, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
+            putText(frameOpenCVDNN, s, Point(int(frameWidth / 2) + 5, 20), FONT_HERSHEY_SIMPLEX, 0.5, CHOCOLATE, 2);
         }
     }
 }
@@ -174,13 +175,13 @@ int main(int argc, const char **argv)
     double totalFrames = 0;
     while (true)
     {
+        double t = cv::getTickCount();
         source >> frame_t;
         Mat frame;
         flip(frame_t, frame, 1);
         if (frame.empty())
             break;
 
-        double t = cv::getTickCount();
         detectFaceOpenCVDNN(net, frame, framework);
         tt_opencvDNN = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
         fpsOpencvDNN = 1 / tt_opencvDNN;
@@ -194,7 +195,7 @@ int main(int argc, const char **argv)
         Point p2(int(frameWidth / 2), frameHeight);
         line(frame, p1, p2, Scalar(0, 0, 255), 4);
 
-        putText(frame, format("OpenCV DNN %s FPS = %.2f", device.c_str(), fpsOpencvDNN), Point(5, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
+        putText(frame, format("OpenCV DNN %s FPS = %.2f", device.c_str(), fpsOpencvDNN), Point(5, 20), FONT_HERSHEY_SIMPLEX, 0.5, GREEN, 2);
 
         imshow("OpenCV - DNN Face Detection", frame);
         int k = waitKey(5);
