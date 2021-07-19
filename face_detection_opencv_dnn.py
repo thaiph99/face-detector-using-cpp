@@ -1,3 +1,5 @@
+__author__ = 'thaiph99'
+
 import argparse
 import os
 import time
@@ -20,6 +22,25 @@ PURPLE = (128, 0, 128)
 CHOCOLATE = (30, 105, 210)
 PINK = (147, 20, 255)
 ORANGE = (0, 69, 255)
+
+fonts = cv2.FONT_HERSHEY_COMPLEX
+
+focal_length_found = 661.4125874125874
+known_width = 14.3  # Centimeter
+
+
+def distance_finder(Focal_Length, real_face_width, face_width_in_frame):
+    '''
+    This Function simply Estimates the distance between object and camera using arguments(Focal_Length, Actual_object_width, Object_width_in_the_image)
+    :param1 Focal_length(float): return by the Focal_Length_Finder function
+
+    :param2 Real_Width(int): It is Actual width of object, in real world (like My face width is = 5.7 Inches)
+    :param3 object_Width_Frame(int): width of object in the image(frame in our case, using Video feed)
+    :return distance(float) : distance Estimated
+
+    '''
+    distance = (real_face_width * Focal_Length)/face_width_in_frame
+    return distance
 
 
 def detectFaceOpenCVDnn(net, frame, framework="caffe", conf_threshold=0.7):
@@ -70,11 +91,11 @@ def detectFaceOpenCVDnn(net, frame, framework="caffe", conf_threshold=0.7):
         AB = math.sqrt((A[0]-B[0])**2+(A[1]-B[1])**2)
         BC = math.sqrt((C[0]-B[0])**2+(C[1]-B[1])**2)
         AC = math.sqrt((A[0]-C[0])**2+(A[1]-C[1])**2)
-        alpha1 = math.acos((AC**2+AB**2-BC**2)/(2*AB*AC))
-        alpha1 = alpha1 * 180/math.pi
-        alpha1 = round(alpha1, 2)
-        # alpha = math.degrees(alpha)
-        text = f"alpha : {alpha1} degrees"
+        alpha = math.acos((AC**2+AB**2-BC**2)/(2*AB*AC))
+        alpha = alpha * 180/math.pi
+        alpha = round(alpha, 2)
+
+        text = f"alpha : {alpha} degrees"
         cv2.putText(frameOpencvDnn, text, (10, 80), cv2.FONT_HERSHEY_SIMPLEX,
                     0.9, BLUE, 2, cv2.LINE_AA)
 
@@ -160,11 +181,32 @@ if __name__ == "__main__":
         frame_count += 1
 
         outOpencvDnn, bboxes = detectFaceOpenCVDnn(net, frame)
+
+        if len(bboxes) == 0:
+            continue
+
+        x, y, ww, hh = bboxes[0]
+
+        face_width_in_frame = abs(x-ww)
+
+        distance = distance_finder(
+            focal_length_found, known_width, face_width_in_frame)
+        distance = round(distance, 2)
+        distance_level = int(distance)
+
         tt_opencvDnn += time.time() - t
         fpsOpencvDnn = frame_count / tt_opencvDnn
 
         label = "OpenCV DNN {} FPS : {:.2f}".format(
             device.upper(), fpsOpencvDnn)
+
+        cv2.line(outOpencvDnn, (x, y-11), (x+140, y-11), (ORANGE), 28)
+        cv2.line(outOpencvDnn, (x, y-11), (x+140, y-11), (YELLOW), 20)
+        cv2.line(outOpencvDnn, (x, y-11),
+                 (x+distance_level, y-11), (GREEN), 18)
+
+        cv2.putText(outOpencvDnn, f"distance {distance} cm",
+                    (x-6, y-6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (BLACK), 2)
         cv2.putText(outOpencvDnn, label, (10, 50), cv2.FONT_HERSHEY_SIMPLEX,
                     0.7, BLUE, 2, cv2.LINE_AA)
 
