@@ -1,9 +1,9 @@
 __author__ = 'thaiph99'
 
 import argparse
+import math
 import os
 import time
-import math
 
 import cv2
 
@@ -29,17 +29,15 @@ focal_length_found = 661.4125874125874
 known_width = 14.3  # Centimeter
 
 
-def distance_finder(Focal_Length, real_face_width, face_width_in_frame):
+def distance_finder(focal_Length, real_face_width, face_width_in_frame):
     '''
-    This Function simply Estimates the distance between object and camera using arguments(Focal_Length, Actual_object_width, Object_width_in_the_image)
-    :param1 Focal_length(float): return by the Focal_Length_Finder function
-
-    :param2 Real_Width(int): It is Actual width of object, in real world (like My face width is = 5.7 Inches)
-    :param3 object_Width_Frame(int): width of object in the image(frame in our case, using Video feed)
-    :return distance(float) : distance Estimated
-
+    This function estimates the distance between object and camera
+    :param1 focal_Length(float): return by the Focal_Length_Finder function
+    :param2 real_face_width(int): it is actual width of object, in real world (like My face width is = 5.7 Inches)
+    :param3 face_width_in_frame(int): width of object in the image(frame in our case, using Video feed)
+    :return distance(float) : distance estimated
     '''
-    distance = (real_face_width * Focal_Length)/face_width_in_frame
+    distance = (real_face_width * focal_Length) / face_width_in_frame
     return distance
 
 
